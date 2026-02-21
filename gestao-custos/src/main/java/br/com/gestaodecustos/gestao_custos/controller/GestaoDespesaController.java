@@ -1,5 +1,6 @@
 package br.com.gestaodecustos.gestao_custos.controller;
 
+import br.com.gestaodecustos.gestao_custos.custom_messages.ErrorMessage;
 import br.com.gestaodecustos.gestao_custos.entity.Despesa;
 import br.com.gestaodecustos.gestao_custos.useCases.CadastroDespesaUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,10 @@ public class GestaoDespesaController {
             var result = cadastroDespesaUseCase.execute(despesa);
             return ResponseEntity.ok(result);
         }catch(IllegalArgumentException e){
-            return ResponseEntity.status(400).body(e.getMessage());
+
+            var errorMessage = new ErrorMessage(e.getMessage(), "INVALID_PARAMS");
+
+            return ResponseEntity.status(400).body(errorMessage);
         }
 
     }
