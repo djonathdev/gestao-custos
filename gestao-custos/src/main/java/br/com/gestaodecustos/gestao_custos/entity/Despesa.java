@@ -1,6 +1,7 @@
 package br.com.gestaodecustos.gestao_custos.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
@@ -23,7 +24,7 @@ public class Despesa {
     private String categoria;
     private String email;
 
-    @CreatedDate()
+    @CreationTimestamp()
     private LocalDate data_criacao;
 
     public UUID getId() {

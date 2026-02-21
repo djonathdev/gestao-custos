@@ -3,6 +3,7 @@ package br.com.gestaodecustos.gestao_custos.controller;
 import br.com.gestaodecustos.gestao_custos.entity.Despesa;
 import br.com.gestaodecustos.gestao_custos.useCases.CadastroDespesaUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +21,16 @@ public class GestaoDespesaController {
 
     @Autowired
     CadastroDespesaUseCase cadastroDespesaUseCase;
-    @PostMapping("/create")
-    public void create(@RequestBody Despesa despesa) {
 
-        cadastroDespesaUseCase.execute(despesa);
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody Despesa despesa) {
+
+        try {
+            var result = cadastroDespesaUseCase.execute(despesa);
+            return ResponseEntity.ok(result);
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
 
     }
 
